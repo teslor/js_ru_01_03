@@ -4,7 +4,12 @@ import {commentStore} from '../stores'
 class CommentsPaginationPage extends Component {
     static propTypes = {
 
-    };
+    }
+    
+    static contextTypes = {
+        dict: PropTypes.object
+    }
+    
     componentDidMount() {
         commentStore.addChangeListener(this.change)
     }
@@ -38,7 +43,8 @@ class CommentsPaginationPage extends Component {
 
     render() {
         const { loading, loaded, comments } = this.state
-        if (!loaded || loading) return <h1>Loading</h1>
+        const { app_loading } = this.context.dict
+        if (!loaded || loading) return <h1>{ app_loading ? app_loading : 'Loading...'}</h1>
         if (!comments.length) return <h1>Sorry, no comments here</h1>
         const commentItems = comments.map(comment =>
             <li key = {comment.id}>{comment.text}</li>

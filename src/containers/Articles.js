@@ -14,7 +14,8 @@ class Articles extends Component {
     }
 
     static contextTypes = {
-        router: PropTypes.object
+        router: PropTypes.object,
+        dict: PropTypes.object       
     }
 
     static childContextTypes = {
@@ -46,12 +47,13 @@ class Articles extends Component {
 
     render() {
         const { articles, loading } = this.state
-        if (loading) return <h1>Loading...</h1>
+        const { app_loading, art_new, sign_in } = this.context.dict
+        if (loading) return <h1>{ app_loading ? app_loading : 'Loading...'}</h1>
         return (
             <div>
-                <h3 onClick = {this.goToNewArticle}>New Article</h3>
+                <h3 onClick = {this.goToNewArticle}>{ art_new ? art_new : 'New Article'}</h3>
                 <input value={this.state.name} onChange = {this.changeName}/>
-                <a href="#" onClick = {this.signIn} >sign in</a>
+                <a href="#" onClick = {this.signIn} >{ sign_in ? sign_in : 'sign in'}</a>
                 <ArticleList articles = {articles}/>
                 {this.props.children}
             </div>

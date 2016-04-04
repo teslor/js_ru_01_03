@@ -1,3 +1,5 @@
+export const LOAD_DICT = 'LOAD_DICT'
+
 export const DELETE_ARTICLE = 'DELETE_ARTICLE'
 
 export const ADD_COMMENT = 'ADD_COMMENT'

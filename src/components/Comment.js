@@ -6,13 +6,15 @@ class Comment extends Component {
     };
 
     static contextTypes = {
-        user: PropTypes.string
+        user: PropTypes.string,
+        dict: PropTypes.object        
     }
 
     render() {
+        const { app_user } = this.context.dict
         return (
             <div>
-                current user: {this.context.user}
+                { app_user ? app_user : 'Current user'}: {this.context.user}
                 <p>{this.props.comment.text}</p>
             </div>
         )

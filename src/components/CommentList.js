@@ -9,6 +9,10 @@ const CommentList = React.createClass({
     propTypes: {
         article: PropTypes.object
     },
+    contextTypes: {
+        user: PropTypes.string,
+        dict: PropTypes.object       
+    },
     getInitialState() {
         return {
             comment: ''
@@ -22,7 +26,8 @@ const CommentList = React.createClass({
     },
     render() {
         const { isOpen, toggleOpen, article,children } = this.props
-        const actionText = isOpen ? 'hide comments' : 'show comments'
+        const { coms_show, coms_hide } = this.context.dict
+        const actionText = isOpen ? (coms_hide ? coms_hide : 'hide comments') : (coms_show ? coms_show : 'show comments')
         return (
             <div>
                 {children}
@@ -33,17 +38,19 @@ const CommentList = React.createClass({
         )
     },
     getInput() {
+        const { com_add } = this.context.dict
         if (!this.props.isOpen) return null
         return <div>
             <input valueLink={this.linkState("comment")}/>
-            <a href = "#" onClick = {this.addComment}>add comment</a>
+            <a href = "#" onClick = {this.addComment}>{ com_add ? com_add : 'add comment'}</a>
         </div>
     },
 
     getList() {
         const {isOpen, article} = this.props
+        const { coms_loading } = this.context.dict
         if (!isOpen) return null
-        if (article.loadingComments) return <h3>Loading comments</h3>
+        if (article.loadingComments) return <h3>{ coms_loading ? coms_loading : 'Loading comments...'}</h3>
         if (!article.loadedComments) return null
         const commentItems = article.getRelation('comments').map((comment) => <li key={comment.id}><Comment comment = {comment}/></li>)
         return <ul>{commentItems}</ul>
@@ -51,7 +58,8 @@ const CommentList = React.createClass({
 
     addComment(ev) {
         ev.preventDefault()
-        addComment(this.props.article.id, this.state.comment)
+        const { user } = this.context
+        addComment(this.props.article.id, (user ? user + ': ' : '') + this.state.comment)
         this.setState({
             comment: ''
         })

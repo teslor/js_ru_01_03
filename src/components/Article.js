@@ -14,11 +14,16 @@ class Article extends Component {
         isOpen: PropTypes.bool,
         article: PropTypes.object.isRequired
     }
+    
+    static contextTypes = {
+        dict: PropTypes.object       
+    }    
 
     render() {
+        const { art_del } = this.context.dict
         return (
             <div ref="container">
-                <a href = "#" onClick = {this.handleDelete}>delete</a>
+                <a href = "#" onClick = {this.handleDelete}>{ art_del ? art_del : 'delete'}</a>
                 {this.getTitle()}
                 {this.getBody()}
             </div>
@@ -36,7 +41,8 @@ class Article extends Component {
 
     getBody() {
         const { article, isOpen } = this.props
-        if (article.loading) return <h3>Loading article</h3>
+        const { art_loading } = this.context.dict
+        if (article.loading) return <h3>{ art_loading ? art_loading : 'Loading article...'}</h3>
         return (
             <div>
                 <p>{article.text}</p>
@@ -46,10 +52,11 @@ class Article extends Component {
     }
 
     getCommentList() {
+        const { art_comments } = this.context.dict
         return  <CommentList ref= "comments"
                              article = {this.props.article}
         >
-            <h3>Comments for article {this.props.article.id}</h3>
+            <h3>{ art_comments ? art_comments : 'Comments for article'} {this.props.article.id}</h3>
         </CommentList>
     }
 

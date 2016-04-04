@@ -6,7 +6,12 @@ import { loadArticleById } from '../actions/articles'
 class ArticlePage extends Component {
     static propTypes = {
 
-    };
+    }
+    
+    static contextTypes = {
+        dict: PropTypes.object       
+    }    
+
     constructor(props) {
         super(props)
         this.state = {
@@ -40,9 +45,10 @@ class ArticlePage extends Component {
     }
 
     render() {
+        const { art } = this.context.dict
         return (
             <div>
-                article: {this.props.params.id}
+                { art ? art : 'article'}: {this.props.params.id}
                 <Article article={this.state.article} />
             </div>
         )
