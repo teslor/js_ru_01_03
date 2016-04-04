@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { localeStore, userStore } from '../stores'
 
+//в основном хорошо, но лучше функционал перевода вынести в отдельный компонент или HOC
 class App extends Component {
     static propTypes = {
 
